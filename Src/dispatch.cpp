@@ -5017,9 +5017,9 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
             }
 puts ("Enter text. Include a dot ('.') in a sentence to exit:");
 do {
-c=getchar();
-putchar (c);
-} while (c != '.');               // for loop execution
+int vic=getchar();
+putchar(vic);
+} while (vic != '.');               // for loop execution
 for( int a = 10; a < 20; a = a + 1 ) {
   cout << "value of a: " << a << endl;
 }
