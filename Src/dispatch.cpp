@@ -5056,71 +5056,71 @@ for( int a = 10; a < 20; a = a + 1 ) {
         exit(1);
     }
 
-    /***************************************/
-    /* Set up the UNIX sockaddr structure  */
-    /* by using AF_UNIX for the family and */
-    /* giving it a filepath to bind to.    */
-    /*                                     */
-    /* Unlink the file so the bind will    */
-    /* succeed, then bind to that file.    */
-    /***************************************/
-    client_sockaddr.sun_family = AF_UNIX;   
-    strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
-    len = sizeof(client_sockaddr);
+    // /***************************************/
+    // /* Set up the UNIX sockaddr structure  */
+    // /* by using AF_UNIX for the family and */
+    // /* giving it a filepath to bind to.    */
+    // /*                                     */
+    // /* Unlink the file so the bind will    */
+    // /* succeed, then bind to that file.    */
+    // /***************************************/
+    // client_sockaddr.sun_family = AF_UNIX;   
+    // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
+    // len = sizeof(client_sockaddr);
     
-    unlink(CLIENT_PATH);
-    rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
-    if (rc == -1){
-        printf("BIND ERROR: %d\n", 88);
-        close(client_sock);
-        exit(1);
-    }
+    // unlink(CLIENT_PATH);
+    // rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
+    // if (rc == -1){
+    //     printf("BIND ERROR: %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }
         
-    /***************************************/
-    /* Set up the UNIX sockaddr structure  */
-    /* for the server socket and connect   */
-    /* to it.                              */
-    /***************************************/
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
-    rc = connect(client_sock, (struct sockaddr *) &server_sockaddr, len);
-    if(rc == -1){
-        printf("CONNECT ERROR = %d\n", 88);
-        close(client_sock);
-        exit(1);
-    }
+    // /***************************************/
+    // /* Set up the UNIX sockaddr structure  */
+    // /* for the server socket and connect   */
+    // /* to it.                              */
+    // /***************************************/
+    // server_sockaddr.sun_family = AF_UNIX;
+    // strcpy(server_sockaddr.sun_path, SERVER_PATH);
+    // rc = connect(client_sock, (struct sockaddr *) &server_sockaddr, len);
+    // if(rc == -1){
+    //     printf("CONNECT ERROR = %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }
     
-    /************************************/
-    /* Copy the data to the buffer and  */
-    /* send it to the server socket.    */
-    /************************************/
-    strcpy(buf, DATA);                 
-    printf("Sending data...\n");
-    rc = send(client_sock, buf, strlen(buf), 0);
-    if (rc == -1) {
-        printf("SEND ERROR = %d\n", 88);
-        close(client_sock);
-        exit(1);
-    }   
-    else {
-        printf("Data sent!\n");
-    }
+    // /************************************/
+    // /* Copy the data to the buffer and  */
+    // /* send it to the server socket.    */
+    // /************************************/
+    // strcpy(buf, DATA);                 
+    // printf("Sending data...\n");
+    // rc = send(client_sock, buf, strlen(buf), 0);
+    // if (rc == -1) {
+    //     printf("SEND ERROR = %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }   
+    // else {
+    //     printf("Data sent!\n");
+    // }
 
-    /**************************************/
-    /* Read the data sent from the server */
-    /* and print it.                      */
-    /**************************************/
-    printf("Waiting to recieve data...\n");
-    memset(buf, 0, sizeof(buf));
-    rc = recv(client_sock, buf, sizeof(buf),MSG_PEEK);
-    if (rc == -1) {
-        printf("RECV ERROR = %d\n", 88);
-        close(client_sock);
-        exit(1);
-    }   
-    else {
-        printf("DATA RECEIVED = %s\n", buf);
-    }
+    // /**************************************/
+    // /* Read the data sent from the server */
+    // /* and print it.                      */
+    // /**************************************/
+    // printf("Waiting to recieve data...\n");
+    // memset(buf, 0, sizeof(buf));
+    // rc = recv(client_sock, buf, sizeof(buf),MSG_PEEK);
+    // if (rc == -1) {
+    //     printf("RECV ERROR = %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }   
+    // else {
+    //     printf("DATA RECEIVED = %s\n", buf);
+    // }
     
     /******************************/
     /* Close the socket and exit. */
