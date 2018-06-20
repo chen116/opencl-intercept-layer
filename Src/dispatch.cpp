@@ -5053,7 +5053,7 @@ for( int a = 10; a < 20; a = a + 1 ) {
     client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (client_sock == -1) {
         printf("SOCKET ERROR = %d\n", 88);
-        exit(1);
+        // exit(1);
     }
 
     // /***************************************/
