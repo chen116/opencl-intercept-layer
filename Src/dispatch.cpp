@@ -5018,6 +5018,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
                     argsString += eventString;
                 }
             }
+
+            
 int vic;
 puts ("Enter text. Include a dot ('.') in a sentence to exit:");
 do {
