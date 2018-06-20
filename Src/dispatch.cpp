@@ -28,9 +28,9 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#define SERVER_PATH "tpf_unix_sock.server"
-#define CLIENT_PATH "tpf_unix_sock.client"
-#define DATA "Hello from client"
+#define SERVER_PATH "/foo/tpf_unix_sock.server"
+#define CLIENT_PATH "/foo/tpf_unix_sock.client"
+#define DATA "Hello from docker client"
 
 
 #include <iostream>
