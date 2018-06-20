@@ -20,6 +20,19 @@
 // SOFTWARE.
 */
 
+// #include <stdio.h>
+// #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
+#define SERVER_PATH "tpf_unix_sock.server"
+#define CLIENT_PATH "tpf_unix_sock.client"
+#define DATA "Hello from client"
+
+
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
