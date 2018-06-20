@@ -5015,9 +5015,10 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
                     argsString += eventString;
                 }
             }
+int vic;
 puts ("Enter text. Include a dot ('.') in a sentence to exit:");
 do {
-int vic=getchar();
+vic=getchar();
 putchar(vic);
 } while (vic != '.');               // for loop execution
 for( int a = 10; a < 20; a = a + 1 ) {
