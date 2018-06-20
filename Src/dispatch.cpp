@@ -5035,15 +5035,20 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
 int vic;
 puts ("Enter text. Include a dot ('.') in a sentence to exit:");
-do {
-vic=getchar();
-putchar(vic);
-} while (vic != '.');               // for loop execution
+// do {
+// vic=getchar();
+// putchar(vic);
+// } while (vic != '.');               // for loop execution
 for( int a = 1; a < 5; a = a + 1 ) {
   cout << "value of a: " << a << endl;
 }
 
-
+    int client_sock, rc, len;
+    struct sockaddr_un server_sockaddr; 
+    struct sockaddr_un client_sockaddr; 
+    char buf[256];
+    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
+    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
 
 
 
