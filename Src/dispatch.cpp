@@ -5049,7 +5049,11 @@ for( int a = 1; a < 5; a = a + 1 ) {
     char buf[256];
     memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-
+    client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (client_sock == -1) {
+        printf("SOCKET ERROR = %d\n", 88);
+        exit(1);
+    }
 
 
             CALL_LOGGING_ENTER_KERNEL(
