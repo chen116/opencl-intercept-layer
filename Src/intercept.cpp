@@ -1048,7 +1048,10 @@ void CLIntercept::callLoggingExit(
         CLI_SPRINTF( temp, CLI_MAX_STRING_SIZE, " created event = %p", *event );
         str += temp;
     }
-
+    if( str == "clEnqueueNDRangeKernel" )
+    {
+        str+="_meow_meow";
+    }
     log( "<<<< " + str + "\n" );
 
     m_OS.LeaveCriticalSection();

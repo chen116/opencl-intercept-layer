@@ -20,6 +20,12 @@
 // SOFTWARE.
 */
 
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+#include <stdio.h>
+
+
 #include <string>
 
 #include "intercept.h"
@@ -5009,9 +5015,17 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
                     argsString += eventString;
                 }
             }
+puts ("Enter text. Include a dot ('.') in a sentence to exit:");
+do {
+c=getchar();
+putchar (c);
+} while (c != '.');               // for loop execution
+for( int a = 10; a < 20; a = a + 1 ) {
+  cout << "value of a: " << a << endl;
+}
             CALL_LOGGING_ENTER_KERNEL(
                 kernel,
-                "queue = %p, kernel = %p, %s",
+                "queue_meow = %p, kernel = %p, %s",
                 command_queue,
                 kernel,
                 argsString.c_str() );
