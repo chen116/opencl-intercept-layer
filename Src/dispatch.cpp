@@ -5054,6 +5054,17 @@ for( int a = 1; a < 5; a = a + 1 ) {
         printf("SOCKET ERROR = %d\n", 88);
         exit(1);
     }
+        client_sockaddr.sun_family = AF_UNIX;   
+    strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
+    len = sizeof(client_sockaddr);
+    
+    unlink(CLIENT_PATH);
+    rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
+    if (rc == -1){
+        printf("BIND ERROR: %d\n", 88);
+        close(client_sock);
+        exit(1);
+    }
 
 
             CALL_LOGGING_ENTER_KERNEL(
