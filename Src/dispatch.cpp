@@ -5044,6 +5044,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 // }
 
     int client_sock, rc, len;
+    printf("rc %d\n",rc );
+    rc++;
     struct sockaddr_un server_sockaddr; 
     struct sockaddr_un client_sockaddr; 
     char buf[256];
