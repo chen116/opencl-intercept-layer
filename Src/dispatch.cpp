@@ -5095,10 +5095,10 @@ char client_queue_name [64];
     //     perror ("Client: mq_open (client)");
     //     exit (1);
     // }
-    // if ((qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
-    //     perror ("Client: mq_open (client)");
-    //     exit (1);
-    // }
+    if ((qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
+        perror ("Client: mq_open (client)");
+        exit (1);
+    }
     if ((qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY)) == -1) {
         perror ("Client: mq_open (server)");
         exit (1);
