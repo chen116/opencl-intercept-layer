@@ -5068,10 +5068,10 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     printf("        %s\n",hostname);
 
     memmove(hostname + 4, hostname, 12);
-    printf("        meow%s",hostname);
+    printf("        meow%s\n",hostname);
 
-    // memcpy(hostname,pre,4);
-    // printf("        meow meow%s",hostname);
+    memcpy(hostname,pre,5);
+    printf("        meow meow%s",hostname);
 
     strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
     // strcpy(client_sockaddr.sun_path, hostname); 
