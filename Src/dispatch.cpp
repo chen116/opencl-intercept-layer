@@ -5059,7 +5059,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     client_sockaddr.sun_family = AF_UNIX; 
 
 
-    char hostname[15];
+    char hostname[17];
 
     char const * pre = "/foo/";
     // printf("        %s\n",pre);
