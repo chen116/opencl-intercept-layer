@@ -5062,9 +5062,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     char hostname[16];
     char* pre = "/foo/";
     gethostname(hostname, 12);
-    size_t len = 4;
-    size_t i;
-    memmove(hostname + len, hostname, strlen(hostname) + 1);
+    memmove(hostname + 4, hostname, strlen(hostname) + 1);
     memcpy(hostname,pre,4);
     // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
     strcpy(client_sockaddr.sun_path, hostname); 
