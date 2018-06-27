@@ -5060,7 +5060,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
 
     char hostname[16];
-    char* pre = "/foo/";
+    char const * pre = "/foo/";
     gethostname(hostname, 12);
     memmove(hostname + 4, hostname, strlen(hostname) + 1);
     memcpy(hostname,pre,4);
