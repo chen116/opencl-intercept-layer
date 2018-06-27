@@ -5101,7 +5101,7 @@ int go =0 ;
 while(go==0)
 {
     sem_wait(sem_id);
-    if(shared_msg->var1==1) go=1:
+    if(shared_msg->var1==1) go=1;
     sem_post(sem_id);
 }
 shm_unlink("/shmjeshu");
