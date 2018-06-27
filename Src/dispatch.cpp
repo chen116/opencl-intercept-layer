@@ -5096,7 +5096,7 @@ char client_queue_name [64];
     //     exit (1);
     // }
     if ((qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
-        perror ("Client: mq_open (client)");
+        perror ("Client: mq_open (client) meow");
         exit (1);
     }
     if ((qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY)) == -1) {
