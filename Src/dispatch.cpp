@@ -5065,8 +5065,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     gethostname(hostname, 12);
     printf("        %s\n",hostname);
 
-    // memmove(hostname + 4, hostname, strlen(hostname) + 1);
-    // printf("        meow%s",hostname);
+    memmove(hostname + 4, hostname, strlen(hostname) + 1);
+    printf("        meow%s",hostname);
 
     // memcpy(hostname,pre,4);
     // printf("        meow meow%s",hostname);
