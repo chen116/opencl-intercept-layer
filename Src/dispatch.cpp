@@ -5102,27 +5102,27 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     mq_unlink (CLI_QUEUE_NAME);
 
 
-    if ((qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
-        perror ("Client: mq_open (client) meow");
-        exit (1);
-    }
-    if ((qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY)) == -1) {
-        perror ("Client: mq_open (server)");
-        exit (1);
-    }
-    char in_buffer [MSG_BUFFER_SIZE];
-    char temp_buf [10];
-    // mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
-    mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
-    mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
-    if (mq_close (qd_client) == -1) {
-        perror ("Client: mq_close");
-        exit (1);
-    }
-    if (mq_unlink (CLI_QUEUE_NAME) == -1) {
-        perror ("Client: mq_unlink");
-        exit (1);
-    }
+    // if ((qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
+    //     perror ("Client: mq_open (client) meow");
+    //     exit (1);
+    // }
+    // if ((qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY)) == -1) {
+    //     perror ("Client: mq_open (server)");
+    //     exit (1);
+    // }
+    // char in_buffer [MSG_BUFFER_SIZE];
+    // char temp_buf [10];
+    // // mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
+    // mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
+    // mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
+    // if (mq_close (qd_client) == -1) {
+    //     perror ("Client: mq_close");
+    //     exit (1);
+    // }
+    // if (mq_unlink (CLI_QUEUE_NAME) == -1) {
+    //     perror ("Client: mq_unlink");
+    //     exit (1);
+    // }
 
 
 
