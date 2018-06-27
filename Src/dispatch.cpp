@@ -44,22 +44,22 @@ using namespace std;
 #include <unistd.h>
 
 // shm_sem
-#include <stdio.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <semaphore.h>
-#define SHMOBJ_PATH         "/shmjeshu"
-sem_t * sem_id;
+// #include <stdio.h>
+// #include <sys/mman.h>
+// #include <sys/types.h>
+// #include <unistd.h>
+// #include <fcntl.h>
+// #include <sys/stat.h>
+// #include <stdlib.h>
+// #include <signal.h>
+// #include <semaphore.h>
+// #define SHMOBJ_PATH         "/shmjeshu"
+// sem_t * sem_id;
 
-struct shared_data {
-    int var1;
-    int var2;
-};
+// struct shared_data {
+//     int var1;
+//     int var2;
+// };
 
 
 #include <string>
@@ -5063,135 +5063,134 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 //   cout << "value of a: " << a << endl;
 // }
 
-int shmfd;
-int shared_seg_size = (1 * sizeof(struct shared_data));   /* want shared segment capable of storing 1 message */
-struct shared_data *shared_msg;      /* the shared segment, and head of the messages list */
+//shm
+// int shmfd;
+// int shared_seg_size = (1 * sizeof(struct shared_data));   /* want shared segment capable of storing 1 message */
+// struct shared_data *shared_msg;      /* the shared segment, and head of the messages list */
 
 
-/* creating the shared memory object    --  shm_open()  */
-shmfd = shm_open(SHMOBJ_PATH, O_CREAT | O_RDWR, S_IRWXU | S_IRWXG);
-if (shmfd < 0)
-{
-    perror("In shm_open()");
-    exit(1);
-}
+// /* creating the shared memory object    --  shm_open()  */
+// shmfd = shm_open(SHMOBJ_PATH, O_CREAT | O_RDWR, S_IRWXU | S_IRWXG);
+// if (shmfd < 0)
+// {
+//     perror("In shm_open()");
+//     exit(1);
+// }
 
-fprintf(stderr, "Created shared memory object %s\n", SHMOBJ_PATH);
+// fprintf(stderr, "Created shared memory object %s\n", SHMOBJ_PATH);
 
-/* adjusting mapped file size (make room for the whole segment to map)      --  ftruncate() */
-ftruncate(shmfd, shared_seg_size);
-/**
- * Semaphore open
- */
-sem_id=sem_open("/mysem", O_CREAT, S_IRUSR | S_IWUSR, 1);
+// /* adjusting mapped file size (make room for the whole segment to map)      --  ftruncate() */
+// ftruncate(shmfd, shared_seg_size);
+
+// sem_id=sem_open("/mysem", O_CREAT, S_IRUSR | S_IWUSR, 1);
 
 
-/* requesting the shared segment    --  mmap() */
-shared_msg = (struct shared_data *)mmap(NULL, shared_seg_size, PROT_READ | PROT_WRITE, MAP_SHARED, shmfd, 0);
-if (shared_msg == NULL)
-{
-    perror("In mmap()");
-    exit(1);
-}
-fprintf(stderr, "Shared memory segment allocated correctly (%d bytes).\n", shared_seg_size);
-sem_wait(sem_id);
-    shared_msg->var1 = -1;
-sem_post(sem_id);
-int go =0 ;
-while(go==0)
-{
-    sem_wait(sem_id);
-    if(shared_msg->var1==1) go=1;
-    sem_post(sem_id);
-}
-shm_unlink("/shmjeshu");
-sem_close(sem_id);
-sem_unlink("/mysem");
+// /* requesting the shared segment    --  mmap() */
+// shared_msg = (struct shared_data *)mmap(NULL, shared_seg_size, PROT_READ | PROT_WRITE, MAP_SHARED, shmfd, 0);
+// if (shared_msg == NULL)
+// {
+//     perror("In mmap()");
+//     exit(1);
+// }
+// fprintf(stderr, "Shared memory segment allocated correctly (%d bytes).\n", shared_seg_size);
+// sem_wait(sem_id);
+//     shared_msg->var1 = -1;
+// sem_post(sem_id);
+// int go =0 ;
+// while(go==0)
+// {
+//     sem_wait(sem_id);
+//     if(shared_msg->var1==1) go=1;
+//     sem_post(sem_id);
+// }
+// shm_unlink("/shmjeshu");
+// sem_close(sem_id);
+// sem_unlink("/mysem");
 // start socket
-//     int client_sock, rc, len;
-//     struct sockaddr_un server_sockaddr; 
-//     struct sockaddr_un client_sockaddr; 
-//     char buf[256];
-//     memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
-//     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-//     client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
-//     // client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
-//     // if (client_sock == -1) {
-//     //     printf("SOCKET ERROR = %d\n", 88);
-//     //     exit(1);
-//     // }
-//     client_sockaddr.sun_family = AF_UNIX; 
+    int client_sock, rc, len;
+    struct sockaddr_un server_sockaddr; 
+    struct sockaddr_un client_sockaddr; 
+    char buf[256];
+    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
+    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
+    client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    // client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
+    // if (client_sock == -1) {
+    //     printf("SOCKET ERROR = %d\n", 88);
+    //     exit(1);
+    // }
+    client_sockaddr.sun_family = AF_UNIX; 
 
 
-//     char hostname[18];
+    char hostname[18];
 
-//     char const * pre = "/foo/";
-//     // printf("        %s\n",pre);
-//     gethostname(hostname, 12);
-//     memmove(hostname + 4, hostname, 12);
-//     memcpy(hostname,pre,5);
-//     hostname[18-1] = '\0';
-//     // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
-//     strcpy(client_sockaddr.sun_path, hostname); 
-//     len = sizeof(client_sockaddr);
+    char const * pre = "/foo/";
+    // printf("        %s\n",pre);
+    gethostname(hostname, 12);
+    memmove(hostname + 4, hostname, 12);
+    memcpy(hostname,pre,5);
+    hostname[18-1] = '\0';
+    // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
+    strcpy(client_sockaddr.sun_path, hostname); 
+    len = sizeof(client_sockaddr);
     
-//     // unlink(CLIENT_PATH);
-//     unlink(hostname);
-//     rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
-//     // if (rc == -1){
-//     //     printf("BIND ERROR: %d\n", 88);
-//     //     close(client_sock);
-//     //     exit(1);
-//     // }
-//     /* Set up the UNIX sockaddr structure  */
-//     /* for the server socket and connect   */
-//     /* to it.                              */
-//     /***************************************/
-//     server_sockaddr.sun_family = AF_UNIX;
-//     strcpy(server_sockaddr.sun_path, SERVER_PATH);
-//     rc = connect(client_sock, (struct sockaddr *) &server_sockaddr, len);
-//     // if(rc == -1){
-//     //     printf("CONNECT ERROR = %d\n", 88);
-//     //     close(client_sock);
-//     //     exit(1);
-//     // }
+    // unlink(CLIENT_PATH);
+    unlink(hostname);
+    rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
+    // if (rc == -1){
+    //     printf("BIND ERROR: %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }
+    /* Set up the UNIX sockaddr structure  */
+    /* for the server socket and connect   */
+    /* to it.                              */
+    /***************************************/
+    server_sockaddr.sun_family = AF_UNIX;
+    strcpy(server_sockaddr.sun_path, SERVER_PATH);
+    rc = connect(client_sock, (struct sockaddr *) &server_sockaddr, len);
+    // if(rc == -1){
+    //     printf("CONNECT ERROR = %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }
     
-//     /************************************/
-//     /* Copy the data to the buffer and  */
-//     /* send it to the server socket.    */
-//     /************************************/
-//     strcpy(buf, DATA);                 
-//     // printf("Sending data...\n");
-//     rc = send(client_sock, buf, strlen(buf), 0);
-//     // if (rc == -1) {
-//     //     printf("SEND ERROR = %d\n", 88);
-//     //     close(client_sock);
-//     //     exit(1);
-//     // }   
-//     // else {
-//     //     printf("Data sent!\n");
-//     // }
+    /************************************/
+    /* Copy the data to the buffer and  */
+    /* send it to the server socket.    */
+    /************************************/
+    strcpy(buf, DATA);                 
+    // printf("Sending data...\n");
+    rc = send(client_sock, buf, strlen(buf), 0);
+    // if (rc == -1) {
+    //     printf("SEND ERROR = %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }   
+    // else {
+    //     printf("Data sent!\n");
+    // }
 
-//     /**************************************/
-//     /* Read the data sent from the server */
-//     /* and print it.                      */
-//     /**************************************/
-//     // printf("Waiting to recieve data...\n");
-//     memset(buf, 0, sizeof(buf));
-//     rc = recv(client_sock, buf, sizeof(buf),MSG_PEEK);
-//     // if (rc == -1) {
-//     //     printf("RECV ERROR = %d\n", 88);
-//     //     close(client_sock);
-//     //     exit(1);
-//     // }   
-//     // else {
-//     //     printf("DATA RECEIVED = %s\n", buf);
-//     // }
+    /**************************************/
+    /* Read the data sent from the server */
+    /* and print it.                      */
+    /**************************************/
+    // printf("Waiting to recieve data...\n");
+    memset(buf, 0, sizeof(buf));
+    rc = recv(client_sock, buf, sizeof(buf),MSG_PEEK);
+    // if (rc == -1) {
+    //     printf("RECV ERROR = %d\n", 88);
+    //     close(client_sock);
+    //     exit(1);
+    // }   
+    // else {
+    //     printf("DATA RECEIVED = %s\n", buf);
+    // }
     
-//     /******************************/
-//     /* Close the socket and exit. */
-//     /******************************/
-//     close(client_sock);
+    /******************************/
+    /* Close the socket and exit. */
+    /******************************/
+    close(client_sock);
 
             CALL_LOGGING_ENTER_KERNEL(
                 kernel,
