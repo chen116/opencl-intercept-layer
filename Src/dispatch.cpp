@@ -5169,92 +5169,94 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 // shm_unlink("/shmjeshu");
 // sem_close(sem_id);
 // sem_unlink("/mysem");
+
 // start socket
-    int client_sock, rc, len;
-    struct sockaddr_un server_sockaddr; 
-    struct sockaddr_un client_sockaddr; 
-    char buf[256];
-    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
-    // client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
-    // if (client_sock == -1) {
-    //     printf("SOCKET ERROR = %d\n", 88);
-    //     exit(1);
-    // }
-    client_sockaddr.sun_family = AF_UNIX; 
+    // int client_sock, rc, len;
+    // struct sockaddr_un server_sockaddr; 
+    // struct sockaddr_un client_sockaddr; 
+    // char buf[256];
+    // memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
+    // memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
+    // client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    // // client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
+    // // if (client_sock == -1) {
+    // //     printf("SOCKET ERROR = %d\n", 88);
+    // //     exit(1);
+    // // }
+    // client_sockaddr.sun_family = AF_UNIX; 
 
 
-    char hostname[18];
+    // char hostname[18];
 
-    char const * pre = "/foo/";
-    // printf("        %s\n",pre);
-    gethostname(hostname, 12);
-    memmove(hostname + 4, hostname, 12);
-    memcpy(hostname,pre,5);
-    hostname[18-1] = '\0';
-    // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
-    strcpy(client_sockaddr.sun_path, hostname); 
-    len = sizeof(client_sockaddr);
+    // char const * pre = "/foo/";
+    // // printf("        %s\n",pre);
+    // gethostname(hostname, 12);
+    // memmove(hostname + 4, hostname, 12);
+    // memcpy(hostname,pre,5);
+    // hostname[18-1] = '\0';
+    // // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
+    // strcpy(client_sockaddr.sun_path, hostname); 
+    // len = sizeof(client_sockaddr);
     
-    // unlink(CLIENT_PATH);
-    unlink(hostname);
-    rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
-    // if (rc == -1){
-    //     printf("BIND ERROR: %d\n", 88);
-    //     close(client_sock);
-    //     exit(1);
-    // }
-    /* Set up the UNIX sockaddr structure  */
-    /* for the server socket and connect   */
-    /* to it.                              */
-    /***************************************/
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
-    rc = connect(client_sock, (struct sockaddr *) &server_sockaddr, len);
-    // if(rc == -1){
-    //     printf("CONNECT ERROR = %d\n", 88);
-    //     close(client_sock);
-    //     exit(1);
-    // }
+    // // unlink(CLIENT_PATH);
+    // unlink(hostname);
+    // rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
+    // // if (rc == -1){
+    // //     printf("BIND ERROR: %d\n", 88);
+    // //     close(client_sock);
+    // //     exit(1);
+    // // }
+    // /* Set up the UNIX sockaddr structure  */
+    // /* for the server socket and connect   */
+    // /* to it.                              */
+    // /***************************************/
+    // server_sockaddr.sun_family = AF_UNIX;
+    // strcpy(server_sockaddr.sun_path, SERVER_PATH);
+    // rc = connect(client_sock, (struct sockaddr *) &server_sockaddr, len);
+    // // if(rc == -1){
+    // //     printf("CONNECT ERROR = %d\n", 88);
+    // //     close(client_sock);
+    // //     exit(1);
+    // // }
     
-    /************************************/
-    /* Copy the data to the buffer and  */
-    /* send it to the server socket.    */
-    /************************************/
-    strcpy(buf, DATA);                 
-    // printf("Sending data...\n");
-    rc = send(client_sock, buf, strlen(buf), 0);
-    // if (rc == -1) {
-    //     printf("SEND ERROR = %d\n", 88);
-    //     close(client_sock);
-    //     exit(1);
-    // }   
-    // else {
-    //     printf("Data sent!\n");
-    // }
+    // /************************************/
+    // /* Copy the data to the buffer and  */
+    // /* send it to the server socket.    */
+    // /************************************/
+    // strcpy(buf, DATA);                 
+    // // printf("Sending data...\n");
+    // rc = send(client_sock, buf, strlen(buf), 0);
+    // // if (rc == -1) {
+    // //     printf("SEND ERROR = %d\n", 88);
+    // //     close(client_sock);
+    // //     exit(1);
+    // // }   
+    // // else {
+    // //     printf("Data sent!\n");
+    // // }
 
-    /**************************************/
-    /* Read the data sent from the server */
-    /* and print it.                      */
-    /**************************************/
-    // printf("Waiting to recieve data...\n");
-    memset(buf, 0, sizeof(buf));
-    rc = recv(client_sock, buf, sizeof(buf),MSG_PEEK);
-    // if (rc == -1) {
-    //     printf("RECV ERROR = %d\n", 88);
-    //     close(client_sock);
-    //     exit(1);
-    // }   
-    // else {
-    //     printf("DATA RECEIVED = %s\n", buf);
-    // }
+    // /**************************************/
+    // /* Read the data sent from the server */
+    // /* and print it.                      */
+    // /**************************************/
+    // // printf("Waiting to recieve data...\n");
+    // memset(buf, 0, sizeof(buf));
+    // rc = recv(client_sock, buf, sizeof(buf),MSG_PEEK);
+    // // if (rc == -1) {
+    // //     printf("RECV ERROR = %d\n", 88);
+    // //     close(client_sock);
+    // //     exit(1);
+    // // }   
+    // // else {
+    // //     printf("DATA RECEIVED = %s\n", buf);
+    // // }
     
-    /******************************/
-    /* Close the socket and exit. */
-    /******************************/
-    close(client_sock);
+    // /******************************/
+    // /* Close the socket and exit. */
+    // /******************************/
+    // close(client_sock);
 
+//back to opencl-interception
             CALL_LOGGING_ENTER_KERNEL(
                 kernel,
                 "queue_meow = %p, kernel = %p, %s",
