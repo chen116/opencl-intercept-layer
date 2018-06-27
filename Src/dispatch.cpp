@@ -5066,7 +5066,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 int shmfd;
 int shared_seg_size = (1 * sizeof(struct shared_data));   /* want shared segment capable of storing 1 message */
 struct shared_data *shared_msg;      /* the shared segment, and head of the messages list */
-signal(SIGINT, signal_callback_handler);
+
 
 /* creating the shared memory object    --  shm_open()  */
 shmfd = shm_open(SHMOBJ_PATH, O_CREAT | O_RDWR, S_IRWXU | S_IRWXG);
