@@ -37,6 +37,7 @@
 #include <stdlib.h>
 using namespace std;
 #include <stdio.h>
+#include <unistd.h>
 
 
 
@@ -5055,8 +5056,18 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     //     printf("SOCKET ERROR = %d\n", 88);
     //     exit(1);
     // }
-        client_sockaddr.sun_family = AF_UNIX;   
-    strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
+        client_sockaddr.sun_family = AF_UNIX; 
+
+
+    char hostname[16];
+    char* pre = "/foo/"
+    gethostname(hostname, 12);
+    size_t len = 4;
+    size_t i;
+    memmove(hostname + len, s, strlen(hostname) + 1);
+    memcpy(hostname,pre,4)
+    // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
+    strcpy(client_sockaddr.sun_path, hostname); 
     len = sizeof(client_sockaddr);
     
     unlink(CLIENT_PATH);
