@@ -5071,7 +5071,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     strcpy(client_sockaddr.sun_path, hostname); 
     len = sizeof(client_sockaddr);
     
-    unlink(CLIENT_PATH);
+    // unlink(CLIENT_PATH);
+    unlink(hostname);
     rc = bind(client_sock, (struct sockaddr *) &client_sockaddr, len);
     // if (rc == -1){
     //     printf("BIND ERROR: %d\n", 88);
