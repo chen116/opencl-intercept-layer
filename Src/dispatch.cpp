@@ -5100,7 +5100,7 @@ char client_queue_name [64];
     }
     char in_buffer [MSG_BUFFER_SIZE];
     char temp_buf [10];
-    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0)
+    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     if (mq_close (qd_client) == -1) {
         perror ("Client: mq_close");
