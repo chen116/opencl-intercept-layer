@@ -5061,15 +5061,15 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
     char hostname[16];
     char const * pre = "/foo/";
-    printf("        %s",pre)
+    printf("        %s",pre);
     gethostname(hostname, 12);
-    printf("        %s",hostname)
+    printf("        %s",hostname);
 
     memmove(hostname + 4, hostname, strlen(hostname) + 1);
-    printf("        meow%s",hostname)
+    printf("        meow%s",hostname);
 
     memcpy(hostname,pre,4);
-    printf("        meow meow%s",hostname)
+    printf("        meow meow%s",hostname);
 
     // strcpy(client_sockaddr.sun_path, CLIENT_PATH); 
     strcpy(client_sockaddr.sun_path, hostname); 
