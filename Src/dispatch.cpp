@@ -5049,8 +5049,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     char buf[256];
     memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    // client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
-    client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
+    client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    // client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     // if (client_sock == -1) {
     //     printf("SOCKET ERROR = %d\n", 88);
     //     exit(1);
