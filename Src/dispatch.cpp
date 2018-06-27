@@ -62,6 +62,23 @@ using namespace std;
 // };
 
 
+//mq
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <mqueue.h>
+
+#define SERVER_QUEUE_NAME   "/sp-example-server"
+#define QUEUE_PERMISSIONS 0660
+#define MAX_MESSAGES 10
+#define MAX_MSG_SIZE 256
+#define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
+
+
 #include <string>
 
 #include "intercept.h"
@@ -5062,6 +5079,40 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 // for( int a = 1; a < 5; a = a + 1 ) {
 //   cout << "value of a: " << a << endl;
 // }
+
+//mq
+char client_queue_name [64];
+    mqd_t qd_server, qd_client;   // queue descriptors
+    // create the client queue for receiving messages from server
+    sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
+    struct mq_attr attr;
+    attr.mq_flags = 0;
+    attr.mq_maxmsg = MAX_MESSAGES;
+    attr.mq_msgsize = MAX_MSG_SIZE;
+    attr.mq_curmsgs = 0;
+    if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
+        perror ("Client: mq_open (client)");
+        exit (1);
+    }
+    if ((qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY)) == -1) {
+        perror ("Client: mq_open (server)");
+        exit (1);
+    }
+    char in_buffer [MSG_BUFFER_SIZE];
+    char temp_buf [10];
+    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0)
+    mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL)
+    if (mq_close (qd_client) == -1) {
+        perror ("Client: mq_close");
+        exit (1);
+    }
+
+    if (mq_unlink (client_queue_name) == -1) {
+        perror ("Client: mq_unlink");
+        exit (1);
+    }
+
+
 
 //shm
 // int shmfd;
