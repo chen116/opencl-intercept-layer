@@ -5073,7 +5073,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
     struct shared_memory_buffer
     {
-       enum { NumItems = 5 };
+       enum { NumItems = 1 };
 
        shared_memory_buffer()
           : mutex(1), nempty(NumItems), nstored(0)
@@ -5087,6 +5087,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
        int items[NumItems];
     };
    //Remove shared memory on destruction
+
 
 
    //Create a shared memory object.
