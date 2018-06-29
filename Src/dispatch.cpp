@@ -5132,24 +5132,25 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
    shared_memory_buffer * data = static_cast<shared_memory_buffer*>(addr);
 
    const int NumMsg = 1;
+   int i=0;
 
    int extracted_vic_data [NumMsg];
    //Insert data in the array
-   for(int i = 0; i < NumMsg; ++i){
+   // for(int i = 0; i < NumMsg; ++i){
       data->nempty.wait();
       data->mutex.wait();
       data->items[i % shared_memory_buffer::NumItems] = i+10;
-      printf("wrote: %d\n",i );
+      // printf("wrote: %d\n",i );
       data->mutex.post();
       data->nstored.post();
-   }
+   // }
 
    //Extract the data
-   for(int i = 0; i < NumMsg; ++i){
+   // for(int i = 0; i < NumMsg; ++i){
       vic_data->nstored.wait();
       vic_data->mutex.wait();
       extracted_vic_data[i] = vic_data->items[i % shared_memory_buffer::NumItems];
-      printf("got: %d\n",extracted_vic_data[i]);
+      // printf("got: %d\n",extracted_vic_data[i]);
       vic_data->mutex.post();
       vic_data->nempty.post();
    }
