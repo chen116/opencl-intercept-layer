@@ -5076,7 +5076,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 extern const int global;
 //in some function
 printf("hiii\n");
-printf("extern %d\n", global_int);
+printf("extern %d\n", global);
 
    //  struct shared_memory_buffer
    //  {
