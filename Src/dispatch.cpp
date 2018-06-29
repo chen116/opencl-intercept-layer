@@ -5131,7 +5131,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
    //Obtain the shared structure
    shared_memory_buffer * data = static_cast<shared_memory_buffer*>(addr);
 
-   const int NumMsg = 10;
+   const int NumMsg = 1;
 
    int extracted_vic_data [NumMsg];
    //Insert data in the array
