@@ -5074,7 +5074,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
         {
            enum { NumItems = 1 };
            shared_memory_buffer()
-              : mutex(1), nempty(1), nstored(0)
+              : mutex(1), nempty(NumItems), nstored(0)
            {}
            //Semaphores to protect and synchronize access
            boost::interprocess::interprocess_semaphore
@@ -5119,7 +5119,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
           printf("docker wrote: %d\n",66 );
           data->mutex.post();
           data->nstored.post();
-
+          printf("cryyy\n");
        //Extract the data
        docker_data->nstored.wait();
        docker_data->mutex.wait();
