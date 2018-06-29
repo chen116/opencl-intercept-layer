@@ -5149,7 +5149,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
    // for(int i = 0; i < NumMsg; ++i){
       vic_data->nstored.wait();
       vic_data->mutex.wait();
-      extracted_vic_data[i] = vic_data->items[i % shared_memory_buffer::NumItems];
+      // extracted_vic_data[i] = vic_data->items[i % shared_memory_buffer::NumItems];
       // printf("got: %d\n",extracted_vic_data[i]);
       vic_data->mutex.post();
       vic_data->nempty.post();
