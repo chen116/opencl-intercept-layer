@@ -5134,7 +5134,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
    const int NumMsg = 1;
    int i=0;
 
-   int extracted_vic_data [NumMsg];
+   // int extracted_vic_data [NumMsg];
    //Insert data in the array
    // for(int i = 0; i < NumMsg; ++i){
       data->nempty.wait();
