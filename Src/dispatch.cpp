@@ -20,66 +20,52 @@
 // SOFTWARE.
 */
 
-// #include <stdio.h>
-// #include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/un.h>
+//meow
+// sockect
+    // #include <stdio.h>
+    // #include <stdlib.h>
+    // #include <errno.h>
+    // #include <string.h>
+    // #include <sys/types.h>
+    // #include <sys/socket.h>
+    // #include <sys/un.h>
 
-#define SERVER_PATH "/foo/tpf_unix_sock.server"
-#define CLIENT_PATH "/foo/tpf_unix_sock.client"
-#define DATA "Hello from docker client"
+    // #define SERVER_PATH "/foo/tpf_unix_sock.server"
+    // #define CLIENT_PATH "/foo/tpf_unix_sock.client"
+    // #define DATA "Hello from docker client"
 
+    // #include <iostream>
+    // #include <stdlib.h>
+    // using namespace std;
+    // #include <stdio.h>
+    // #include <unistd.h>
 
-
-
-
-
-#include <iostream>
-#include <stdlib.h>
-using namespace std;
-#include <stdio.h>
-#include <unistd.h>
-
-// shm_sem
-// #include <stdio.h>
-// #include <sys/mman.h>
-// #include <sys/types.h>
-// #include <unistd.h>
-// #include <fcntl.h>
-// #include <sys/stat.h>
-// #include <stdlib.h>
-// #include <signal.h>
-// #include <semaphore.h>
-// #define SHMOBJ_PATH         "/shmjeshu"
-// sem_t * sem_id;
-
-// struct shared_data {
-//     int var1;
-//     int var2;
-// };
-
+//boost sema
+    #include <boost/interprocess/sync/interprocess_semaphore.hpp>
+    #include <boost/interprocess/shared_memory_object.hpp>
+    #include <boost/interprocess/mapped_region.hpp>
+    #include <iostream>
+    using namespace boost::interprocess;
+    
 
 //mq
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <mqueue.h>
+    // #include <stdio.h>
+    // #include <stdlib.h>
+    // #include <string.h>
+    // #include <sys/types.h>
+    // #include <unistd.h>
+    // #include <fcntl.h>
+    // #include <sys/stat.h>
+    // #include <mqueue.h>
 
-#define SERVER_QUEUE_NAME   "/sp-example-server"
-#define CLI_QUEUE_NAME   "/sp-example-cli"
-#define QUEUE_PERMISSIONS 0660
-#define MAX_MESSAGES 10
-#define MAX_MSG_SIZE 256
-#define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
+    // #define SERVER_QUEUE_NAME   "/sp-example-server"
+    // #define CLI_QUEUE_NAME   "/sp-example-cli"
+    // #define QUEUE_PERMISSIONS 0660
+    // #define MAX_MESSAGES 10
+    // #define MAX_MSG_SIZE 256
+    // #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
 
-
+//opencl-original
 #include <string>
 
 #include "intercept.h"
@@ -5081,29 +5067,87 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 //   cout << "value of a: " << a << endl;
 // }
 
-//mq
-    mqd_t qd_server, qd_client;   // queue descriptors
-    // create the client queue for receiving messages from server
-    // char client_queue_name [64];
-    // sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
-    struct mq_attr attr;
-    attr.mq_flags = 0;
-    attr.mq_maxmsg = MAX_MESSAGES;
-    attr.mq_msgsize = MAX_MSG_SIZE;
-    attr.mq_curmsgs = 0;
 
-    qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr);
-    qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
-    char in_buffer [MSG_BUFFER_SIZE];
-    char temp_buf [10];
-    mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
-    mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
-    mq_close (qd_client);
-    mq_unlink (CLI_QUEUE_NAME);
+// boost sema
+
+    struct shared_memory_buffer
+        {
+           enum { NumItems = 1 };
+           shared_memory_buffer()
+              : mutex(1), nempty(1), nstored(0)
+           {}
+           //Semaphores to protect and synchronize access
+           boost::interprocess::interprocess_semaphore
+              mutex, nempty, nstored;
+           //Items to fill
+           int items[NumItems];
+        };
+
+    shared_memory_object docker_shm
+          (create_only//only create
+          ,"docker_MySharedMemory"              //name
+          ,read_write  //read-write mode
+          );
+       mapped_region docker_region
+          (docker_shm                       //What to map
+          ,read_write //Map it as read-write
+          );
+       //Get the address of the mapped region
+       void * docker_addr       = docker_region.get_address();
+       //Construct the shared structure in memory
+       shared_memory_buffer * docker_data = new (docker_addr) shared_memory_buffer;
+
+
+    shared_memory_object shm
+          (open_only//only create
+          ,"MySharedMemory"              //name
+          ,read_write  //read-write mode
+          );
+       mapped_region region
+          (shm                       //What to map
+          ,read_write //Map it as read-write
+          );
+       //Get the address of the mapped region
+       void * addr       = region.get_address();
+       //Construct the shared structure in memory
+       shared_memory_buffer * data = new (addr) shared_memory_buffer;
+          data->nempty.wait();
+          data->mutex.wait();
+          data->items[0] = 66;
+          printf("docker wrote: %d\n",66 );
+          data->mutex.post();
+          data->nstored.post();
+
+       //Extract the data
+       docker_data->nstored.wait();
+       docker_data->mutex.wait();
+       printf("docker got: %d\n",docker_data->items[0]);
+       docker_data->mutex.post();
+       docker_data->nempty.post();
+
+//mq
+    // mqd_t qd_server, qd_client;   // queue descriptors
+    // // create the client queue for receiving messages from server
+    // // char client_queue_name [64];
+    // // sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
+    // struct mq_attr attr;
+    // attr.mq_flags = 0;
+    // attr.mq_maxmsg = MAX_MESSAGES;
+    // attr.mq_msgsize = MAX_MSG_SIZE;
+    // attr.mq_curmsgs = 0;
+
+    // qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr);
+    // qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
+    // char in_buffer [MSG_BUFFER_SIZE];
+    // char temp_buf [10];
+    // mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
+    // mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
+    // mq_close (qd_client);
+    // mq_unlink (CLI_QUEUE_NAME);
 
 
     // if ((qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
-    //     perror ("Client: mq_open (client) meow");
+    //     perror ("Client: mq_open (client)");
     //     exit (1);
     // }
     // if ((qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY)) == -1) {
@@ -5126,51 +5170,9 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
 
 
-//shm
-// int shmfd;
-// int shared_seg_size = (1 * sizeof(struct shared_data));   /* want shared segment capable of storing 1 message */
-// struct shared_data *shared_msg;      /* the shared segment, and head of the messages list */
 
 
-// /* creating the shared memory object    --  shm_open()  */
-// shmfd = shm_open(SHMOBJ_PATH, O_CREAT | O_RDWR, S_IRWXU | S_IRWXG);
-// if (shmfd < 0)
-// {
-//     perror("In shm_open()");
-//     exit(1);
-// }
-
-// fprintf(stderr, "Created shared memory object %s\n", SHMOBJ_PATH);
-
-// /* adjusting mapped file size (make room for the whole segment to map)      --  ftruncate() */
-// ftruncate(shmfd, shared_seg_size);
-
-// sem_id=sem_open("/mysem", O_CREAT, S_IRUSR | S_IWUSR, 1);
-
-
-// /* requesting the shared segment    --  mmap() */
-// shared_msg = (struct shared_data *)mmap(NULL, shared_seg_size, PROT_READ | PROT_WRITE, MAP_SHARED, shmfd, 0);
-// if (shared_msg == NULL)
-// {
-//     perror("In mmap()");
-//     exit(1);
-// }
-// fprintf(stderr, "Shared memory segment allocated correctly (%d bytes).\n", shared_seg_size);
-// sem_wait(sem_id);
-//     shared_msg->var1 = -1;
-// sem_post(sem_id);
-// int go =0 ;
-// while(go==0)
-// {
-//     sem_wait(sem_id);
-//     if(shared_msg->var1==1) go=1;
-//     sem_post(sem_id);
-// }
-// shm_unlink("/shmjeshu");
-// sem_close(sem_id);
-// sem_unlink("/mysem");
-
-// start socket
+//socket
     // int client_sock, rc, len;
     // struct sockaddr_un server_sockaddr; 
     // struct sockaddr_un client_sockaddr; 
