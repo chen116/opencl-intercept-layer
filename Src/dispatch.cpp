@@ -5070,6 +5070,12 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
 // boost sema
 
+    // address saving
+
+
+extern int global_int;
+//in some function
+printf("extern %d\n", global_int);
 
    //  struct shared_memory_buffer
    //  {
