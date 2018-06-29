@@ -5088,10 +5088,6 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     };
    //Remove shared memory on destruction
 
-   struct shm_remove
-   {
-      ~shm_remove(){ shared_memory_object::remove("MySharedMemory");shared_memory_object::remove("vic_MySharedMemory"); }
-   } remover;
 
    //Create a shared memory object.
    shared_memory_object vic_shm
