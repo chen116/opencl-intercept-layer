@@ -5088,6 +5088,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
           ,"docker_MySharedMemory"              //name
           ,read_write  //read-write mode
           );
+   docker_shm.truncate(sizeof(shared_memory_buffer));
+
        mapped_region docker_region
           (docker_shm                       //What to map
           ,read_write //Map it as read-write
