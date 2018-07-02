@@ -959,7 +959,7 @@ int CLIntercept::sendMqServer(){
     printf ("Client: Token received from server: %s\n\n", in_buffer);
 
     mq_close (qd_client);
-    mq_unlink (client_queue_name);    
+    // mq_unlink (client_queue_name);    
 
     return 87;
 }
