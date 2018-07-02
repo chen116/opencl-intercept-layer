@@ -41,7 +41,7 @@
     // #include <unistd.h>
 
 //boost sema
-    extern int var;
+    // extern int var;
     #include <boost/interprocess/sync/interprocess_semaphore.hpp>
     #include <boost/interprocess/shared_memory_object.hpp>
     #include <boost/interprocess/mapped_region.hpp>
@@ -5073,7 +5073,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
     // address saving
 
-    printf("%d varrrrrr\n",var );
+    // printf("%d varrrrrr\n",var );
 
 
     struct shared_memory_buffer
