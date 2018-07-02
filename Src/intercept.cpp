@@ -949,7 +949,7 @@ int CLIntercept::sendMqServer(){
     #define MAX_MESSAGES 10
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
-    printf("in sendMqServer\n",client_queue_name);
+    printf("in sendMqServer: %s\n",client_queue_name);
     char in_buffer [MSG_BUFFER_SIZE];
     mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
