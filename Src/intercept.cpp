@@ -136,6 +136,18 @@ CLIntercept::CLIntercept( void* pGlobalData )
     m_AubCaptureKernelEnqueueSkipCounter = 0;
     m_AubCaptureKernelEnqueueCaptureCounter = 0;
 
+
+    #define SERVER_QUEUE_NAME   "/sp-example-server"
+    #define CLI_QUEUE_NAME   "/sp-example-cli"
+    struct mq_attr attr;
+    attr.mq_flags = 0;
+    attr.mq_maxmsg = 100;
+    attr.mq_msgsize = 256;
+    attr.mq_curmsgs = 0;
+    qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, 0660, &attr);
+    qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
+
+
 #define CLI_CONTROL( _type, _name, _init, _desc )   m_Config . _name = _init;
 #include "controls.h"
 #undef CLI_CONTROL
@@ -915,8 +927,22 @@ void CLIntercept::getCallLoggingPrefix(
     }
 }
 
-int CLIntercept::getvic(){
-    return m_EnqueueCounter;
+//meow
+
+int CLIntercept::sendMqServer(){
+    #define SERVER_QUEUE_NAME   "/sp-example-server"
+    #define CLI_QUEUE_NAME   "/sp-example-cli"
+    #define MAX_MESSAGES 10
+    #define MAX_MSG_SIZE 256
+    #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
+    char in_buffer [MSG_BUFFER_SIZE];
+    char temp_buf [10];
+    mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
+    mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
+    mq_close (qd_client);
+    mq_unlink (CLI_QUEUE_NAME);    
+
+    return 87;
 }
 ///////////////////////////////////////////////////////////////////////////////
 //

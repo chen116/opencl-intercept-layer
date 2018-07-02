@@ -55,6 +55,16 @@
 
 #include "OS/OS.h"
 
+//meow
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <mqueue.h>
+
 class CLIntercept
 {
     struct Config;
@@ -62,8 +72,9 @@ class CLIntercept
 public:
     static bool Create( void* pGlobalData, CLIntercept*& pIntercept );
     static void Delete( CLIntercept*& pIntercept );
-
-    int getvic();
+    //meow
+    void setMq();
+    void sendMqServer();
 
     void    report();
 
@@ -694,6 +705,13 @@ private:
     bool        m_LoggedCLInfo;
 
     uint64_t    m_EnqueueCounter;
+
+    //meow
+    mqd_t qd_server; 
+    mqd_t qd_client; 
+
+    
+
     uint64_t    m_StartTime;
 
     typedef std::map< uint64_t, unsigned int>   CThreadNumberMap;
