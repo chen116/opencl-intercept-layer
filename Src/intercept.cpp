@@ -940,7 +940,7 @@ int CLIntercept::sendMqServer(){
     char temp_buf [10];
     mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
-    // printf ("Client: Token received from server: %s\n\n", in_buffer);
+    printf ("Client: Token received from server: %s\n\n", in_buffer);
 
     mq_close (qd_client);
     mq_unlink (CLI_QUEUE_NAME);    
