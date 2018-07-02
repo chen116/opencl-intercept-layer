@@ -5016,7 +5016,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     {
         //meow
         printf("hiiii\n");
-        printf("%d hey man\n",pIntercept->sendMqServer());
+        // printf("%d hey man\n",pIntercept->sendMqServer());
         cl_int  retVal = CL_SUCCESS;
 
         DUMP_BUFFERS_BEFORE_ENQUEUE( kernel, command_queue );
