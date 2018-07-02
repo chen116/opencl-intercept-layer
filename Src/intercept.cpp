@@ -138,7 +138,6 @@ CLIntercept::CLIntercept( void* pGlobalData )
 
     //meow
     #define SERVER_QUEUE_NAME   "/sp-example-server"
-    #define CLI_QUEUE_NAME   "/sp-example-cli"
     #define MAX_MESSAGES 10
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
@@ -147,14 +146,16 @@ CLIntercept::CLIntercept( void* pGlobalData )
     attr.mq_maxmsg = 100;
     attr.mq_msgsize = 256;
     attr.mq_curmsgs = 0;
-    // char *cli_name = "/sp-example-cli";
-    // cli_name += sprintf(cli_name, "%ld", (long)getpid());
-    // printf("%s\n",cli_name );
-    qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, 0660, &attr);
+
+    char client_queue_name [64];
+    sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
+    printf("%s\n",client_queue_name );
+
+    qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, 0660, &attr);
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
     char in_buffer [MSG_BUFFER_SIZE];
 
-    mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
+    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     printf ("Client: Token received from server: %s\n\n", in_buffer);
 
@@ -942,17 +943,23 @@ void CLIntercept::getCallLoggingPrefix(
 //meow
 int CLIntercept::sendMqServer(){
     #define SERVER_QUEUE_NAME   "/sp-example-server"
-    #define CLI_QUEUE_NAME   "/sp-example-cli"
     #define MAX_MESSAGES 10
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
+
+
+    char client_queue_name [64];
+    sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
+    printf("%s\n",client_queue_name );
+
+    
     char in_buffer [MSG_BUFFER_SIZE];
-    mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
+    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     printf ("Client: Token received from server: %s\n\n", in_buffer);
 
     mq_close (qd_client);
-    mq_unlink (CLI_QUEUE_NAME);    
+    mq_unlink (client_queue_name);    
 
     return 87;
 }
