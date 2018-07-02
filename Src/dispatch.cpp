@@ -42,11 +42,11 @@
 
 //boost sema
     // extern int var;
-    #include <boost/interprocess/sync/interprocess_semaphore.hpp>
-    #include <boost/interprocess/shared_memory_object.hpp>
-    #include <boost/interprocess/mapped_region.hpp>
-    #include <iostream>
-    using namespace boost::interprocess;
+    // #include <boost/interprocess/sync/interprocess_semaphore.hpp>
+    // #include <boost/interprocess/shared_memory_object.hpp>
+    // #include <boost/interprocess/mapped_region.hpp>
+    // #include <iostream>
+    // using namespace boost::interprocess;
     
 
 //mq
@@ -5076,94 +5076,95 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     // printf("%d varrrrrr\n",var );
 
 
-    struct shared_memory_buffer
-    {
-       enum { NumItems = 1 };
+   //  struct shared_memory_buffer
+   //  {
+   //     enum { NumItems = 1 };
 
-       shared_memory_buffer()
-          : mutex(1), nempty(NumItems), nstored(0)
-       {}
+   //     shared_memory_buffer()
+   //        : mutex(1), nempty(NumItems), nstored(0)
+   //     {}
 
-       //Semaphores to protect and synchronize access
-       boost::interprocess::interprocess_semaphore
-          mutex, nempty, nstored;
+   //     //Semaphores to protect and synchronize access
+   //     boost::interprocess::interprocess_semaphore
+   //        mutex, nempty, nstored;
 
-       //Items to fill
-       int items[NumItems];
-    };
-   //Remove shared memory on destruction
-
-
-
-   //Create a shared memory object.
-   shared_memory_object vic_shm
-      (open_only                  //only create
-      ,"vic_MySharedMemory"              //name
-      ,read_write  //read-write mode
-      );
-   //Map the whole shared memory in this process
-   mapped_region vic_region
-      (vic_shm                       //What to map
-      ,read_write //Map it as read-write
-      );
-
-   //Get the address of the mapped vic_region
-   void * vic_addr       = vic_region.get_address();
-
-   //Construct the shared structure in memory
-   shared_memory_buffer * vic_data = new (vic_addr) shared_memory_buffer;
+   //     //Items to fill
+   //     int items[NumItems];
+   //  };
+   // //Remove shared memory on destruction
 
 
 
+   // //Create a shared memory object.
+   // shared_memory_object vic_shm
+   //    (open_only                  //only create
+   //    ,"vic_MySharedMemory"              //name
+   //    ,read_write  //read-write mode
+   //    );
+   // //Map the whole shared memory in this process
+   // mapped_region vic_region
+   //    (vic_shm                       //What to map
+   //    ,read_write //Map it as read-write
+   //    );
+
+   // //Get the address of the mapped vic_region
+   // void * vic_addr       = vic_region.get_address();
+
+   // //Construct the shared structure in memory
+   // shared_memory_buffer * vic_data = new (vic_addr) shared_memory_buffer;
 
 
-   //Create a shared memory object.
-   shared_memory_object shm
-      (open_only                    //only create
-      ,"MySharedMemory"              //name
-      ,read_write  //read-write mode
-      );
 
-   //Map the whole shared memory in this process
-   mapped_region region
-      (shm                       //What to map
-      ,read_write //Map it as read-write
-      );
 
-   //Get the address of the mapped region
-   void * addr       = region.get_address();
 
-   //Obtain the shared structure
-   shared_memory_buffer * data = static_cast<shared_memory_buffer*>(addr);
+   // //Create a shared memory object.
+   // shared_memory_object shm
+   //    (open_only                    //only create
+   //    ,"MySharedMemory"              //name
+   //    ,read_write  //read-write mode
+   //    );
 
-   const int NumMsg = 1;
-   int i=0;
+   // //Map the whole shared memory in this process
+   // mapped_region region
+   //    (shm                       //What to map
+   //    ,read_write //Map it as read-write
+   //    );
 
-   int extracted_vic_data [NumMsg];
-   //Insert data in the array
-   // for(int i = 0; i < NumMsg; ++i){
-      data->nempty.wait();
-      data->mutex.wait();
-      data->items[i % shared_memory_buffer::NumItems] = i+10;
-      printf("wrote: %d\n",i );
-      data->mutex.post();
-      data->nstored.post();
-   // }
+   // //Get the address of the mapped region
+   // void * addr       = region.get_address();
 
-   //Extract the data
-   // for(int i = 0; i < NumMsg; ++i){
-      vic_data->nstored.wait();
-      vic_data->mutex.wait();
-      extracted_vic_data[i] = vic_data->items[i % shared_memory_buffer::NumItems];
-      printf("got: %d\n",extracted_vic_data[i]);
-      vic_data->mutex.post();
-      vic_data->nempty.post();
+   // //Obtain the shared structure
+   // shared_memory_buffer * data = static_cast<shared_memory_buffer*>(addr);
+
+   // const int NumMsg = 1;
+   // int i=0;
+
+   // int extracted_vic_data [NumMsg];
+   // //Insert data in the array
+   // // for(int i = 0; i < NumMsg; ++i){
+   //    data->nempty.wait();
+   //    data->mutex.wait();
+   //    data->items[i % shared_memory_buffer::NumItems] = i+10;
+   //    printf("wrote: %d\n",i );
+   //    data->mutex.post();
+   //    data->nstored.post();
+   // // }
+
+   // //Extract the data
+   // // for(int i = 0; i < NumMsg; ++i){
+   //    vic_data->nstored.wait();
+   //    vic_data->mutex.wait();
+   //    extracted_vic_data[i] = vic_data->items[i % shared_memory_buffer::NumItems];
+   //    printf("got: %d\n",extracted_vic_data[i]);
+   //    vic_data->mutex.post();
+   //    vic_data->nempty.post();
    // }
 
 
 
 
 //mq
+    // declration:
     // mqd_t qd_server, qd_client;   // queue descriptors
     // // create the client queue for receiving messages from server
     // // char client_queue_name [64];
@@ -5174,6 +5175,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     // attr.mq_msgsize = MAX_MSG_SIZE;
     // attr.mq_curmsgs = 0;
 
+    // short version:
     // qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr);
     // qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
     // char in_buffer [MSG_BUFFER_SIZE];
@@ -5184,7 +5186,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     // mq_unlink (CLI_QUEUE_NAME);
 
 
-    //verbose version
+    //verbose version:
     // if ((qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
     //     perror ("Client: mq_open (client)");
     //     exit (1);
