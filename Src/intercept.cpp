@@ -145,8 +145,8 @@ CLIntercept::CLIntercept( void* pGlobalData )
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
     struct mq_attr attr;
     attr.mq_flags = 0;
-    attr.mq_maxmsg = 100;
-    attr.mq_msgsize = 256;
+    attr.mq_maxmsg = MAX_MESSAGES;
+    attr.mq_msgsize = MAX_MSG_SIZE;
     attr.mq_curmsgs = 0;
 
     char client_queue_name [64];
