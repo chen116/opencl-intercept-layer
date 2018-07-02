@@ -5014,6 +5014,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
     if( pIntercept )
     {
+        printf("hiiii\n");
+        printf("%d hey man\n",pIntercept.m_EnqueueCounter);
         cl_int  retVal = CL_SUCCESS;
 
         DUMP_BUFFERS_BEFORE_ENQUEUE( kernel, command_queue );
