@@ -135,17 +135,18 @@ CLIntercept::CLIntercept( void* pGlobalData )
     m_AubCaptureStarted = false;
     m_AubCaptureKernelEnqueueSkipCounter = 0;
     m_AubCaptureKernelEnqueueCaptureCounter = 0;
-    printf("process id %d\n", getpid() );
 
-
+    //meow
     #define SERVER_QUEUE_NAME   "/sp-example-server"
-    #define CLI_QUEUE_NAME   "/sp-example-cli"
     struct mq_attr attr;
     attr.mq_flags = 0;
     attr.mq_maxmsg = 100;
     attr.mq_msgsize = 256;
     attr.mq_curmsgs = 0;
-    qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, 0660, &attr);
+    char *cli_name = "/sp-example-cli";
+    cli_name += sprintf(cli_name, "%ld", (long)getpid());
+    printf("%s\n",cli_name );
+    qd_client = mq_open ("/sp-example-cli", O_RDONLY | O_CREAT, 0660, &attr);
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
 
 
@@ -929,7 +930,6 @@ void CLIntercept::getCallLoggingPrefix(
 }
 
 //meow
-
 int CLIntercept::sendMqServer(){
     #define SERVER_QUEUE_NAME   "/sp-example-server"
     #define CLI_QUEUE_NAME   "/sp-example-cli"
@@ -940,6 +940,8 @@ int CLIntercept::sendMqServer(){
     char temp_buf [10];
     mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
+    printf ("Client: Token received from server: %s\n\n", in_buffer);
+
     mq_close (qd_client);
     mq_unlink (CLI_QUEUE_NAME);    
 
