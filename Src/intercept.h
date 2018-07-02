@@ -709,6 +709,8 @@ private:
     //meow
     mqd_t qd_server; 
     mqd_t qd_client; 
+    char client_queue_name [64];  
+
 
     
 

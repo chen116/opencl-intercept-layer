@@ -158,13 +158,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
         exit (1);
     }
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
-    char in_buffer [MSG_BUFFER_SIZE];
 
-    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
-    mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
-    printf ("Client: Token received from server: %s\n\n", in_buffer);
-    mq_close (qd_client);
-    mq_unlink (client_queue_name);  
 
 
 #define CLI_CONTROL( _type, _name, _init, _desc )   m_Config . _name = _init;
@@ -313,6 +307,9 @@ CLIntercept::~CLIntercept()
             ++i;
         }
     }
+    //meow
+    mq_close (qd_client);
+    mq_unlink (client_queue_name);    
 
     log( "... shutdown complete.\n" );
 
@@ -953,19 +950,11 @@ int CLIntercept::sendMqServer(){
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
 
-
-    char client_queue_name [64];
-    sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
-    printf("%s\n",client_queue_name );
-
-
     char in_buffer [MSG_BUFFER_SIZE];
     mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     printf ("Client: Token received from server: %s\n\n", in_buffer);
 
-    mq_close (qd_client);
-    // mq_unlink (client_queue_name);    
 
     return 87;
 }
