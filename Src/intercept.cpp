@@ -149,7 +149,6 @@ CLIntercept::CLIntercept( void* pGlobalData )
     attr.mq_msgsize = MAX_MSG_SIZE;
     attr.mq_curmsgs = 0;
 
-    char client_queue_name [64];
     sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
     printf("%s\n",client_queue_name );
 
@@ -949,6 +948,7 @@ int CLIntercept::sendMqServer(){
     #define MAX_MESSAGES 10
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
+
     printf("in sendMqServer: %s\n",client_queue_name);
     char in_buffer [MSG_BUFFER_SIZE];
     mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
