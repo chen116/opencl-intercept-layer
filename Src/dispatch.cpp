@@ -41,29 +41,29 @@
     // #include <unistd.h>
 
 //boost sema
-    // #include <boost/interprocess/sync/interprocess_semaphore.hpp>
-    // #include <boost/interprocess/shared_memory_object.hpp>
-    // #include <boost/interprocess/mapped_region.hpp>
-    // #include <iostream>
-    // using namespace boost::interprocess;
+    #include <boost/interprocess/sync/interprocess_semaphore.hpp>
+    #include <boost/interprocess/shared_memory_object.hpp>
+    #include <boost/interprocess/mapped_region.hpp>
+    #include <iostream>
+    using namespace boost::interprocess;
     
 
 //mq
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <sys/types.h>
-    #include <unistd.h>
-    #include <fcntl.h>
-    #include <sys/stat.h>
-    #include <mqueue.h>
+    // #include <stdio.h>
+    // #include <stdlib.h>
+    // #include <string.h>
+    // #include <sys/types.h>
+    // #include <unistd.h>
+    // #include <fcntl.h>
+    // #include <sys/stat.h>
+    // #include <mqueue.h>
 
-    #define SERVER_QUEUE_NAME   "/sp-example-server"
-    #define CLI_QUEUE_NAME   "/sp-example-cli"
-    #define QUEUE_PERMISSIONS 0660
-    #define MAX_MESSAGES 10
-    #define MAX_MSG_SIZE 256
-    #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
+    // #define SERVER_QUEUE_NAME   "/sp-example-server"
+    // #define CLI_QUEUE_NAME   "/sp-example-cli"
+    // #define QUEUE_PERMISSIONS 0660
+    // #define MAX_MESSAGES 10
+    // #define MAX_MSG_SIZE 256
+    // #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
 
 //opencl-original
 #include <string>
