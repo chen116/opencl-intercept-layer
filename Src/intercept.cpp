@@ -151,7 +151,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
     printf("%s\n",client_queue_name );
 
-    if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
+    if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, 0660, &attr)) == -1) {
         perror ("Client: mq_open (client)");
         exit (1);
     }
