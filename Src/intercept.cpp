@@ -151,7 +151,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
     printf("%s\n",client_queue_name );
 
-    qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, 0660, &attr);
+    qd_client = mq_open (client_queue_name, O_CREAT | O_RDWR, 0660, &attr);
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
     char in_buffer [MSG_BUFFER_SIZE];
 
