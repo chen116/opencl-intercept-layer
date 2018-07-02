@@ -139,6 +139,8 @@ CLIntercept::CLIntercept( void* pGlobalData )
     //meow
     #define SERVER_QUEUE_NAME   "/sp-example-server"
     #define MAX_MESSAGES 10
+    #define QUEUE_PERMISSIONS 0660
+
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
     struct mq_attr attr;
@@ -151,7 +153,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
     printf("%s\n",client_queue_name );
 
-    if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, 0660, &attr)) == -1) {
+    if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
         perror ("Client: mq_open (client)");
         exit (1);
     }
