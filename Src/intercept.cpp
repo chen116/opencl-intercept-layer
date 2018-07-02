@@ -138,6 +138,10 @@ CLIntercept::CLIntercept( void* pGlobalData )
 
     //meow
     #define SERVER_QUEUE_NAME   "/sp-example-server"
+    #define CLI_QUEUE_NAME   "/sp-example-cli"
+    #define MAX_MESSAGES 10
+    #define MAX_MSG_SIZE 256
+    #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
     struct mq_attr attr;
     attr.mq_flags = 0;
     attr.mq_maxmsg = 100;
@@ -146,8 +150,13 @@ CLIntercept::CLIntercept( void* pGlobalData )
     // char *cli_name = "/sp-example-cli";
     // cli_name += sprintf(cli_name, "%ld", (long)getpid());
     // printf("%s\n",cli_name );
-    qd_client = mq_open ("/sp-example-cli", O_RDONLY | O_CREAT, 0660, &attr);
+    qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, 0660, &attr);
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
+
+    mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
+    mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
+    printf ("Client: Token received from server: %s\n\n", in_buffer);
+
 
 
 #define CLI_CONTROL( _type, _name, _init, _desc )   m_Config . _name = _init;
@@ -937,7 +946,6 @@ int CLIntercept::sendMqServer(){
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
     char in_buffer [MSG_BUFFER_SIZE];
-    char temp_buf [10];
     mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     printf ("Client: Token received from server: %s\n\n", in_buffer);
