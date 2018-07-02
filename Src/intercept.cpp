@@ -152,6 +152,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     // printf("%s\n",cli_name );
     qd_client = mq_open (CLI_QUEUE_NAME, O_RDONLY | O_CREAT, 0660, &attr);
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
+    char in_buffer [MSG_BUFFER_SIZE];
 
     mq_send (qd_server, CLI_QUEUE_NAME, strlen (CLI_QUEUE_NAME) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
