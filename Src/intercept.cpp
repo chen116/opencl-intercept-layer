@@ -135,6 +135,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     m_AubCaptureStarted = false;
     m_AubCaptureKernelEnqueueSkipCounter = 0;
     m_AubCaptureKernelEnqueueCaptureCounter = 0;
+    printf("process id %d\n", getpid() );
 
 
     #define SERVER_QUEUE_NAME   "/sp-example-server"
