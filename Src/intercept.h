@@ -63,6 +63,8 @@ public:
     static bool Create( void* pGlobalData, CLIntercept*& pIntercept );
     static void Delete( CLIntercept*& pIntercept );
 
+    int getvic();
+
     void    report();
 
     void    callLoggingEnter(

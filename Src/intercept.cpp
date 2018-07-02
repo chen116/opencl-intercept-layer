@@ -915,6 +915,9 @@ void CLIntercept::getCallLoggingPrefix(
     }
 }
 
+int CLIntercept::getvic(){
+    return m_EnqueueCounter;
+}
 ///////////////////////////////////////////////////////////////////////////////
 //
 void CLIntercept::callLoggingEnter(
