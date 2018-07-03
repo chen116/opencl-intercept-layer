@@ -66,10 +66,10 @@
 #include <sys/stat.h>
 #include <mqueue.h>
 //shm
-#include <boost/interprocess/sync/interprocess_semaphore.hpp>
-#include <boost/interprocess/shared_memory_object.hpp>
-#include <boost/interprocess/mapped_region.hpp>
-using namespace boost::interprocess;
+// #include <boost/interprocess/sync/interprocess_semaphore.hpp>
+// #include <boost/interprocess/shared_memory_object.hpp>
+// #include <boost/interprocess/mapped_region.hpp>
+// using namespace boost::interprocess;
 
 class CLIntercept
 {
@@ -733,7 +733,7 @@ private:
     char cli_shm_name [64];  
     shared_memory_buffer * srv_data;
     shared_memory_buffer * cli_data;
-void * addr ;
+    void * addr ;
 
 
     
