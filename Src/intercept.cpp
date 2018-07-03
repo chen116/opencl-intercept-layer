@@ -996,11 +996,11 @@ int CLIntercept::sendMqServer(){
 
 
 int CLIntercept::sendSHM(){
-
-         srv_data = static_cast<shared_memory_buffer*>(addr);
-
-
-
+    #define SERVER_SHM_NAME   "/pacer-srv-shm"
+    shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
+    mapped_region region(shm,read_write);
+    addr = region.get_address();
+    srv_data = static_cast<shared_memory_buffer*>(addr);
 
       srv_data->nempty.wait();
       srv_data->mutex.wait();
