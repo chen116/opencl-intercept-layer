@@ -1009,7 +1009,10 @@ int CLIntercept::sendSHM(){
       srv_data->mutex.post();
       srv_data->nstored.post();
 
-
+    shared_memory_object cli_shm(open_only ,cli_shm_name,read_write);
+    mapped_region cli_region(shm,read_write);
+    void * cli_addr = cli_region.get_address();
+    cli_data = static_cast<shared_memory_buffer*>(cli_addr);
 
       cli_data->nstored.wait();
       cli_data->mutex.wait();
