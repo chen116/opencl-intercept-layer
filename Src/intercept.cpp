@@ -150,7 +150,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     attr.mq_msgsize = MAX_MSG_SIZE;
     attr.mq_curmsgs = 0;
 
-    sprintf (client_queue_name, "/pacer-cli-mq-%d", getpid ());
+    sprintf (client_queue_name, "/%d", getpid ());
     printf("%s\n",client_queue_name );
 
     if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
