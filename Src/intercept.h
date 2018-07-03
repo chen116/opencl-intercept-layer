@@ -719,21 +719,21 @@ private:
     mqd_t qd_server; 
     mqd_t qd_client; 
     char client_queue_name [64];  
-    //shm
-    struct shared_memory_buffer
-        {
-           enum { NumItems = 1 };
-           shared_memory_buffer()
-              : mutex(1), nempty(NumItems), nstored(0){}
-           //Semaphores to protect and synchronize access
-           boost::interprocess::interprocess_semaphore mutex, nempty, nstored;
-           //Items to fill
-           int items[NumItems];
-        };
-    char cli_shm_name [64];  
-    shared_memory_buffer * srv_data;
-    shared_memory_buffer * cli_data;
-    void * addr ;
+    // //shm
+    // struct shared_memory_buffer
+    //     {
+    //        enum { NumItems = 1 };
+    //        shared_memory_buffer()
+    //           : mutex(1), nempty(NumItems), nstored(0){}
+    //        //Semaphores to protect and synchronize access
+    //        boost::interprocess::interprocess_semaphore mutex, nempty, nstored;
+    //        //Items to fill
+    //        int items[NumItems];
+    //     };
+    // char cli_shm_name [64];  
+    // shared_memory_buffer * srv_data;
+    // shared_memory_buffer * cli_data;
+    // void * addr ;
 
 
     
