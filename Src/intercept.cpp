@@ -996,7 +996,7 @@ int CLIntercept::sendMqServer(){
 
 
 int CLIntercept::sendSHM(){
-    addr = region.get_address();
+
          srv_data = static_cast<shared_memory_buffer*>(addr);
       srv_data->nempty.wait();
       srv_data->mutex.wait();
