@@ -1000,11 +1000,7 @@ int CLIntercept::sendSHM(){
          srv_data = static_cast<shared_memory_buffer*>(addr);
 
 
-      srv_data->nstored.wait();
-      srv_data->mutex.wait();
-      printf("got srv srv: %d\n",srv_data->items[0]);
-      srv_data->mutex.post();
-      srv_data->nempty.post();
+
 
       srv_data->nempty.wait();
       srv_data->mutex.wait();
