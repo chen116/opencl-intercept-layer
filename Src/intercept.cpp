@@ -159,30 +159,30 @@ CLIntercept::CLIntercept( void* pGlobalData )
     }
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
     //shm
-    sprintf (cli_shm_name, "/pacer-cli-shm-%d", getpid ());
-    printf("%s\n",cli_shm_name );
-    shared_memory_object cli_shm(create_only,cli_shm_name,read_write);
-    cli_shm.truncate(sizeof(shared_memory_buffer));
-    mapped_region cli_region(cli_shm,read_write);
-    void * cli_addr = cli_region.get_address();
-    cli_data = new (cli_addr) shared_memory_buffer;
+    // sprintf (cli_shm_name, "/pacer-cli-shm-%d", getpid ());
+    // printf("%s\n",cli_shm_name );
+    // shared_memory_object cli_shm(create_only,cli_shm_name,read_write);
+    // cli_shm.truncate(sizeof(shared_memory_buffer));
+    // mapped_region cli_region(cli_shm,read_write);
+    // void * cli_addr = cli_region.get_address();
+    // cli_data = new (cli_addr) shared_memory_buffer;
 
-    #define SERVER_SHM_NAME   "/pacer-srv-shm"
-    shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
-    mapped_region region(shm,read_write);
-    addr = region.get_address();
-    srv_data = static_cast<shared_memory_buffer*>(addr);
-    // srv_data = new (addr) shared_memory_buffer;
-
-
+    // #define SERVER_SHM_NAME   "/pacer-srv-shm"
+    // shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
+    // mapped_region region(shm,read_write);
+    // addr = region.get_address();
+    // srv_data = static_cast<shared_memory_buffer*>(addr);
+    // // srv_data = new (addr) shared_memory_buffer;
 
 
-    srv_data->nempty.wait();
-    srv_data->mutex.wait();
-    srv_data->items[0] = getpid ();
-    printf("init shm wrote: %d\n",getpid () );
-    srv_data->mutex.post();
-    srv_data->nstored.post();
+
+
+    // srv_data->nempty.wait();
+    // srv_data->mutex.wait();
+    // srv_data->items[0] = getpid ();
+    // printf("init shm wrote: %d\n",getpid () );
+    // srv_data->mutex.post();
+    // srv_data->nstored.post();
 
 
 
