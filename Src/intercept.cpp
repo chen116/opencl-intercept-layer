@@ -996,29 +996,29 @@ int CLIntercept::sendMqServer(){
 
 
 int CLIntercept::sendSHM(){
-    #define SERVER_SHM_NAME   "/pacer-srv-shm"
-    shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
-    mapped_region region(shm,read_write);
-    addr = region.get_address();
-    srv_data = static_cast<shared_memory_buffer*>(addr);
+    // #define SERVER_SHM_NAME   "/pacer-srv-shm"
+    // shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
+    // mapped_region region(shm,read_write);
+    // addr = region.get_address();
+    // srv_data = static_cast<shared_memory_buffer*>(addr);
 
-      srv_data->nempty.wait();
-      srv_data->mutex.wait();
-      srv_data->items[0] = 87;
-      printf("wrote: %d\n",87 );
-      srv_data->mutex.post();
-      srv_data->nstored.post();
+    //   srv_data->nempty.wait();
+    //   srv_data->mutex.wait();
+    //   srv_data->items[0] = 87;
+    //   printf("wrote: %d\n",87 );
+    //   srv_data->mutex.post();
+    //   srv_data->nstored.post();
 
-    shared_memory_object cli_shm(open_only ,cli_shm_name,read_write);
-    mapped_region cli_region(shm,read_write);
-    void * cli_addr = cli_region.get_address();
-    cli_data = static_cast<shared_memory_buffer*>(cli_addr);
+    // shared_memory_object cli_shm(open_only ,cli_shm_name,read_write);
+    // mapped_region cli_region(shm,read_write);
+    // void * cli_addr = cli_region.get_address();
+    // cli_data = static_cast<shared_memory_buffer*>(cli_addr);
 
-      cli_data->nstored.wait();
-      cli_data->mutex.wait();
-      printf("got: %d\n",cli_data->items[0]);
-      cli_data->mutex.post();
-      cli_data->nempty.post();
+    //   cli_data->nstored.wait();
+    //   cli_data->mutex.wait();
+    //   printf("got: %d\n",cli_data->items[0]);
+    //   cli_data->mutex.post();
+    //   cli_data->nempty.post();
       return 87;
 
 }
