@@ -216,7 +216,7 @@ CLIntercept::~CLIntercept()
     mq_close (qd_client);
     mq_unlink (client_queue_name);   
     //shm
-    shared_memory_object::remove(cli_shm_name); 
+    // shared_memory_object::remove(cli_shm_name); 
 
 
     stopAubCapture( NULL );
