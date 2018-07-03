@@ -171,7 +171,12 @@ CLIntercept::CLIntercept( void* pGlobalData )
     shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
     mapped_region region(shm,read_write);
     void * addr = region.get_address();
-    srv_data = static_cast<shared_memory_buffer*>(addr);
+    // srv_data = static_cast<shared_memory_buffer*>(addr);
+    srv_data = new (addr) shared_memory_buffer;
+
+
+
+
     srv_data->nempty.wait();
     srv_data->mutex.wait();
     srv_data->items[0] = getpid ();
@@ -997,6 +1002,9 @@ int CLIntercept::sendSHM(){
       printf("wrote: %d\n",87 );
       srv_data->mutex.post();
       srv_data->nstored.post();
+
+
+
       cli_data->nstored.wait();
       cli_data->mutex.wait();
       printf("got: %d\n",cli_data->items[0]);
