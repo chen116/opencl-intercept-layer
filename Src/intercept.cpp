@@ -137,7 +137,8 @@ CLIntercept::CLIntercept( void* pGlobalData )
     m_AubCaptureKernelEnqueueCaptureCounter = 0;
 
     //meow
-    #define SERVER_QUEUE_NAME   "/sp-example-server"
+    //mq
+    #define SERVER_QUEUE_NAME   "/pacer-srv-mq"
     #define MAX_MESSAGES 10
     #define QUEUE_PERMISSIONS 0660
 
@@ -149,7 +150,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     attr.mq_msgsize = MAX_MSG_SIZE;
     attr.mq_curmsgs = 0;
 
-    sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
+    sprintf (client_queue_name, "/pacer-cli-mq-%d", getpid ());
     printf("%s\n",client_queue_name );
 
     if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
@@ -157,6 +158,24 @@ CLIntercept::CLIntercept( void* pGlobalData )
         exit (1);
     }
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
+    //shm
+    // sprintf (cli_shm_name, "/pacer-cli-shm-%d", getpid ());
+    // printf("%s\n",cli_shm_name );
+    // shared_memory_object cli_shm(create_only,cli_shm_name,read_write);
+    // cli_shm.truncate(sizeof(shared_memory_buffer));
+    // mapped_region cli_region(cli_shm,read_write);
+    // void * cli_addr = cli_region.get_address();
+    // cli_data = new (cli_addr) shared_memory_buffer;
+
+    // #define SERVER_SHM_NAME   "/pacer-srv-shm"
+    // shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
+    // mapped_region region(shm,read_write);
+    // void * addr = region.get_address();
+    // srv_data = static_cast<shared_memory_buffer*>(addr);
+
+
+
+
 
 
 
@@ -181,6 +200,14 @@ CLIntercept::CLIntercept( void* pGlobalData )
 //
 CLIntercept::~CLIntercept()
 {
+    //meow
+    //mq
+    mq_close (qd_client);
+    mq_unlink (client_queue_name);   
+    //shm
+    // shared_memory_object::remove(cli_shm_name); 
+
+
     stopAubCapture( NULL );
     report();
 
@@ -306,9 +333,8 @@ CLIntercept::~CLIntercept()
             ++i;
         }
     }
-    //meow
-    mq_close (qd_client);
-    mq_unlink (client_queue_name);    
+
+
 
     log( "... shutdown complete.\n" );
 
@@ -944,7 +970,7 @@ void CLIntercept::getCallLoggingPrefix(
 
 //meow
 int CLIntercept::sendMqServer(){
-    #define SERVER_QUEUE_NAME   "/sp-example-server"
+    #define SERVER_QUEUE_NAME   "/pacer-srv-mq"
     #define MAX_MESSAGES 10
     #define MAX_MSG_SIZE 256
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
@@ -954,10 +980,29 @@ int CLIntercept::sendMqServer(){
     mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     printf ("Client: Token received from server: %s\n\n", in_buffer);
-
-
     return 87;
 }
+
+
+int CLIntercept::sendSHM(){
+      srv_data->nempty.wait();
+      srv_data->mutex.wait();
+      srv_data->items[0] = getpid();
+      printf("wrote: %d\n",87 );
+      srv_data->mutex.post();
+      srv_data->nstored.post();
+      cli_data->nstored.wait();
+      cli_data->mutex.wait();
+      printf("got: %d\n",cli_data->items[0]);
+      cli_data->mutex.post();
+      cli_data->nempty.post();
+      return 87;
+
+}
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 void CLIntercept::callLoggingEnter(

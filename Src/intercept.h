@@ -56,6 +56,7 @@
 #include "OS/OS.h"
 
 //meow
+//mq
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,6 +65,11 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <mqueue.h>
+//shm
+#include <boost/interprocess/sync/interprocess_semaphore.hpp>
+#include <boost/interprocess/shared_memory_object.hpp>
+#include <boost/interprocess/mapped_region.hpp>
+using namespace boost::interprocess;
 
 class CLIntercept
 {
@@ -75,6 +81,7 @@ public:
     //meow
 
     int sendMqServer();
+    int sendSHM();
 
     void    report();
 
@@ -707,10 +714,25 @@ private:
     uint64_t    m_EnqueueCounter;
 
     //meow
+
+    //mq
     mqd_t qd_server; 
     mqd_t qd_client; 
     char client_queue_name [64];  
-
+    //shm
+    struct shared_memory_buffer
+        {
+           enum { NumItems = 1 };
+           shared_memory_buffer()
+              : mutex(1), nempty(NumItems), nstored(0){}
+           //Semaphores to protect and synchronize access
+           boost::interprocess::interprocess_semaphore mutex, nempty, nstored;
+           //Items to fill
+           int items[NumItems];
+        };
+    char cli_shm_name [64];  
+    shared_memory_buffer * srv_data;
+    shared_memory_buffer * cli_data;
 
     
 

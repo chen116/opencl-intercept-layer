@@ -41,7 +41,7 @@
     // #include <unistd.h>
 
 //boost sema
-    // extern int var;
+
     // #include <boost/interprocess/sync/interprocess_semaphore.hpp>
     // #include <boost/interprocess/shared_memory_object.hpp>
     // #include <boost/interprocess/mapped_region.hpp>
@@ -59,7 +59,7 @@
     // #include <sys/stat.h>
     // #include <mqueue.h>
 
-    // #define SERVER_QUEUE_NAME   "/sp-example-server"
+    // #define SERVER_QUEUE_NAME   "/pacer-srv-mq"
     // #define CLI_QUEUE_NAME   "/sp-example-cli"
     // #define QUEUE_PERMISSIONS 0660
     // #define MAX_MESSAGES 10
@@ -5011,12 +5011,18 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     cl_event* event )
 {
     CLIntercept*    pIntercept = GetIntercept();
+            //meow
+        printf("%d hey mq\n",pIntercept->sendMqServer());
+        // printf("%d hey shm\n",pIntercept->sendSHM());
+
+
+
 
     if( pIntercept )
     {
-        //meow
-        printf("hiiii\n");
-        printf("%d hey man\n",pIntercept->sendMqServer());
+
+
+
         cl_int  retVal = CL_SUCCESS;
 
         DUMP_BUFFERS_BEFORE_ENQUEUE( kernel, command_queue );
@@ -5073,10 +5079,6 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 
 
 // boost sema
-
-    // address saving
-
-    // printf("%d varrrrrr\n",var );
 
 
    //  struct shared_memory_buffer
@@ -5161,7 +5163,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
    //    printf("got: %d\n",extracted_vic_data[i]);
    //    vic_data->mutex.post();
    //    vic_data->nempty.post();
-   // }
+   // // }
 
 
 
