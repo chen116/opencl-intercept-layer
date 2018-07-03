@@ -170,7 +170,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     #define SERVER_SHM_NAME   "/pacer-srv-shm"
     shared_memory_object shm(open_only ,SERVER_SHM_NAME,read_write);
     mapped_region region(shm,read_write);
-    void * addr = region.get_address();
+    addr = region.get_address();
     srv_data = static_cast<shared_memory_buffer*>(addr);
     // srv_data = new (addr) shared_memory_buffer;
 
@@ -996,6 +996,8 @@ int CLIntercept::sendMqServer(){
 
 
 int CLIntercept::sendSHM(){
+    addr = region.get_address();
+         srv_data = static_cast<shared_memory_buffer*>(addr);
       srv_data->nempty.wait();
       srv_data->mutex.wait();
       srv_data->items[0] = 87;

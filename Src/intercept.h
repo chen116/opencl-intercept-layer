@@ -733,6 +733,8 @@ private:
     char cli_shm_name [64];  
     shared_memory_buffer * srv_data;
     shared_memory_buffer * cli_data;
+void * addr ;
+
 
     
 
