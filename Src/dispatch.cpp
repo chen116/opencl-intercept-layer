@@ -5012,7 +5012,8 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
 {
     CLIntercept*    pIntercept = GetIntercept();
             //meow
-        printf("%d hey mq\n",pIntercept->sendMqServer());
+    int mq = pIntercept->sendMqServer()
+        // printf("%d hey mq\n",pIntercept->sendMqServer());
         // printf("%d hey shm\n",pIntercept->sendSHM());
 
 
