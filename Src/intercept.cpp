@@ -160,7 +160,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
 
     //setup
-    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
+    mq_send (qd_server, client_queue_name+" start", strlen (client_queue_name) + 1, 0);
 
     //shm
     // sprintf (cli_shm_name, "/pacer-cli-shm-%d", getpid ());
