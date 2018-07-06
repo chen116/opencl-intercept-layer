@@ -139,7 +139,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     //meow
     //mq
     #define SERVER_QUEUE_NAME   "/pacer-srv-mq"
-    #define SERVER_QUEUE_NAME_init   "/pacer-srv-mq-init"
+    #define SERVER_QUEUE_NAME_init   "/pacer-srv-mq-gate"
     #define MAX_MESSAGES 10
     #define QUEUE_PERMISSIONS 0660
 
@@ -162,10 +162,10 @@ CLIntercept::CLIntercept( void* pGlobalData )
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
 
     char msg [16];  
-    sprintf(msg,"%d init",vic_pid);
-    mqd_t qd_server_init; 
-    qd_server_init = mq_open ("/pacer-srv-mq-init", O_WRONLY);
-    mq_send (qd_server_init, msg, strlen (msg) + 1, 0);
+    sprintf(msg,"%d",vic_pid);
+    mqd_t qd_server_gate; 
+    qd_server_gate = mq_open ("/pacer-srv-mq-gate", O_WRONLY);
+    mq_send (qd_server_gate, msg, strlen (msg) + 1, 0);
 
 
 
@@ -252,10 +252,10 @@ CLIntercept::~CLIntercept()
 
 
     char msg [16];  
-    sprintf(msg,"%d end",vic_pid);
-    mqd_t qd_server_init; 
-    qd_server_init = mq_open ("/pacer-srv-mq-init", O_WRONLY);
-    mq_send (qd_server_init, msg, strlen (msg) + 1, 0);
+    sprintf(msg,"%d",vic_pid);
+    mqd_t qd_server_gate; 
+    qd_server_gate = mq_open ("/pacer-srv-mq-gate", O_WRONLY);
+    mq_send (qd_server_gate, msg, strlen (msg) + 1, 0);
 
     //shm
     // shared_memory_object::remove(cli_shm_name); 
@@ -1029,8 +1029,10 @@ int CLIntercept::sendMqServer(){
     #define MSG_BUFFER_SIZE MAX_MSG_SIZE + 10
 
     printf("in sendMqServer: %s\n",client_queue_name);
+    char msg [16];  
+    sprintf(msg,"%d",vic_pid);
     char in_buffer [MSG_BUFFER_SIZE];
-    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
+    mq_send (qd_server, msg, strlen (msg) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     printf ("Client: Token received from server: %s\n", in_buffer);
     return 87;
