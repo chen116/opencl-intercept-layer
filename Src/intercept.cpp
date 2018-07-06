@@ -158,11 +158,10 @@ CLIntercept::CLIntercept( void* pGlobalData )
     sprintf(msg,"%d start",getpid ());
     printf("%s\n",msg );
     printf("msg len %d\n",strlen(msg) );
-    char in_buffer [MSG_BUFFER_SIZE];
     char bss[1];
     char bs[10];
     int mm;
-    sscanf(in_buffer, "%d %s",&mm,bs);
+    sscanf(msg, "%d %s",&mm,bs);
     printf("   %d %s\n",mm, bs );
 
 
