@@ -151,6 +151,12 @@ CLIntercept::CLIntercept( void* pGlobalData )
     attr.mq_curmsgs = 0;
 
     sprintf (client_queue_name, "/%d", getpid ());
+    char msg [64];  
+    sprintf(msg,"%d start",getpid ());
+    printf("%s\n",msg );
+    printf("msg len %d\n",strlen(msg) );
+    
+
     printf("opencl-intercept init mq: %s\n",client_queue_name );
 
     if ((qd_client = mq_open (client_queue_name, O_RDONLY | O_CREAT, QUEUE_PERMISSIONS, &attr)) == -1) {
@@ -160,7 +166,8 @@ CLIntercept::CLIntercept( void* pGlobalData )
     qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
 
     //setup
-    mq_send (qd_server, client_queue_name+" start", strlen (client_queue_name) + 1, 0);
+    mq_send (qd_server, client_queue_name, strlen (client_queue_name) + 1, 0);
+    // mq_send (qd_server, msg, strlen (msg) + 1, 0);
 
     //shm
     // sprintf (cli_shm_name, "/pacer-cli-shm-%d", getpid ());
