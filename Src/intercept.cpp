@@ -151,10 +151,18 @@ CLIntercept::CLIntercept( void* pGlobalData )
     attr.mq_curmsgs = 0;
 
     sprintf (client_queue_name, "/%d", getpid ());
+
     char msg [64];  
-    sprintf(msg,"%d start",getpid ());
+    sprintf(msg,"/%d start",getpid ());
     printf("%s\n",msg );
     printf("msg len %d\n",strlen(msg) );
+    char in_buffer [MSG_BUFFER_SIZE];
+    char bss[1];
+    char bs[10];
+    int mm;
+    sscanf(in_buffer, "%s%d %s",bss,&mm,bs);
+    printf("   %d %s",mm, bs )
+
 
 
     printf("opencl-intercept init mq: %s\n",client_queue_name );
