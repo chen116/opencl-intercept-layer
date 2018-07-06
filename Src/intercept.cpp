@@ -161,7 +161,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     char bs[10];
     int mm;
     sscanf(in_buffer, "%s%d %s",bss,&mm,bs);
-    printf("   %d %s",mm, bs )
+    printf("   %d %s",mm, bs );
 
 
 
