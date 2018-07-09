@@ -136,9 +136,8 @@ CLIntercept::CLIntercept( void* pGlobalData )
     m_AubCaptureKernelEnqueueSkipCounter = 0;
     m_AubCaptureKernelEnqueueCaptureCounter = 0;
 
-    //meow
-    //mq
-    #define SERVER_QUEUE_NAME   "/pacer-srv-mq"
+    // //meow
+    // //mq
     #define SERVER_QUEUE_NAME_init   "/pacer-srv-mq-gate"
     #define MAX_MESSAGES 10
     #define QUEUE_PERMISSIONS 0660
@@ -167,7 +166,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
     qd_server_gate = mq_open ("/pacer-srv-mq-gate", O_WRONLY);
     mq_send (qd_server_gate, msg, strlen (msg) + 1, 0);
 
-
+    //end gate
 
 
     // char msg [64];  
