@@ -138,7 +138,6 @@ CLIntercept::CLIntercept( void* pGlobalData )
 
     // //meow
     // //mq
-    #define SERVER_QUEUE_NAME_init   "/pacer-srv-mq-gate"
     #define MAX_MESSAGES 10
     #define QUEUE_PERMISSIONS 0660
 
@@ -158,7 +157,7 @@ CLIntercept::CLIntercept( void* pGlobalData )
         perror ("Client: mq_open (client)");
         exit (1);
     }
-    qd_server = mq_open (SERVER_QUEUE_NAME, O_WRONLY);
+    qd_server = mq_open ("/pacer-srv-mq", O_WRONLY);
 
     char msg [16];  
     sprintf(msg,"%d",vic_pid);
