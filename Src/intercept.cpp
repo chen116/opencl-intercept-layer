@@ -1020,7 +1020,7 @@ void CLIntercept::getCallLoggingPrefix(
 }
 
 //meow
-int CLIntercept::sendMqServer(){
+int CLIntercept::sendMqServer(int pacer_finish){
     #define SERVER_QUEUE_NAME   "/pacer-srv-mq"
     #define MAX_MESSAGES 10
     #define MAX_MSG_SIZE 256
@@ -1028,12 +1028,12 @@ int CLIntercept::sendMqServer(){
 
     printf("in sendMqServer: %s\n",client_queue_name);
     char msg [16];  
-    sprintf(msg,"%d",vic_pid);
+    sprintf(msg,"%d %d",vic_pid,pacer_finish);
     char in_buffer [MSG_BUFFER_SIZE];
     mq_send (qd_server, msg, strlen (msg) + 1, 0);
     mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
     printf ("Client: Token received from server: %s\n", in_buffer);
-    return 87;
+    return vic_pid;
 }
 
 

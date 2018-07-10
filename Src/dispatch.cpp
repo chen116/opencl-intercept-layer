@@ -3416,6 +3416,9 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clFinish)(
 
         DEVICE_PERFORMANCE_TIMING_CHECK();
 
+        //meow
+        printf("%d hey clfinish:\n",pIntercept->sendMqServer(1));
+
         return retVal;
     }
     else
@@ -5013,7 +5016,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     CLIntercept*    pIntercept = GetIntercept();
             //meow
     // int mq = pIntercept->sendMqServer();
-        printf("%d hey mq:\n",pIntercept->sendMqServer());
+        printf("%d hey mq:\n",pIntercept->sendMqServer(0));
         // printf("%d hey shm\n",pIntercept->sendSHM());
 
 
