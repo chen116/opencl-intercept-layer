@@ -79,7 +79,7 @@ public:
     static bool Create( void* pGlobalData, CLIntercept*& pIntercept );
     static void Delete( CLIntercept*& pIntercept );
     //meow
-    int sendMqServer();
+    int sendMqServer(int pacer_finish);
     int sendSHM();
 
     void    report();
