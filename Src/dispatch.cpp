@@ -3418,7 +3418,6 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clFinish)(
 
         //meow
         printf("%d hey clfinish:\n",pIntercept->sendMqServer(1));
-
         return retVal;
     }
     else
