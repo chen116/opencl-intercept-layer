@@ -1034,8 +1034,8 @@ int CLIntercept::sendMqServer(int pacer_finish){
     if (pacer_finish==0)
     {
         mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL);
+        printf ("Client: Token received from server: %s\n", in_buffer);
     }
-    printf ("Client: Token received from server: %s\n", in_buffer);
     return vic_pid;
 }
 
