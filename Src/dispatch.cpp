@@ -5018,10 +5018,9 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
         printf("%d hey mq:\n",pIntercept->sendMqServer(0));
         // printf("%d hey shm\n",pIntercept->sendSHM());
 int vic=getchar();
-do {
 vic=getchar();
-putchar(vic);
-} while (vic != '.');  
+printf("char = %d\n",vic );
+
 
 
 
