@@ -5015,12 +5015,11 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     CLIntercept*    pIntercept = GetIntercept();
             //meow
     // int mq = pIntercept->sendMqServer();
-        printf("%d hey mq:\n",pIntercept->sendMqServer(0));
+  std::cout << "Please enter an int: ";
+  std::cin >> i;
+  std::cout << "The value you entered is " << i;
+    printf("%d in ndrange::\n",pIntercept->sendMqServer(0));
         // printf("%d hey shm\n",pIntercept->sendSHM());
-char vic=getchar();
-   printf("Character entered: ");
-   putchar(vic);
-
 
 
 
