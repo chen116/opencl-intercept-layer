@@ -5015,6 +5015,7 @@ CL_API_ENTRY cl_int CL_API_CALL CLIRN(clEnqueueNDRangeKernel)(
     CLIntercept*    pIntercept = GetIntercept();
             //meow
     // int mq = pIntercept->sendMqServer();
+    #include <iostream>
   std::cout << "Please enter an int: ";
   std::cin >> i;
   std::cout << "The value you entered is " << i;
